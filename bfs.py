@@ -58,6 +58,55 @@ def BFS(graph, start, end):
     
 print(BFS(graph_simple,'A','J'))
 
+from queue import LifoQueue
+
+
+def DFS(graph, start, end):
+  if start is end:
+    path=list()
+    path.appen(start)
+    return path
+  
+  stack_nodes = LifoQueue(len(graph))
+  visited = set()
+  prev_nodes = dict()
+  
+  stack_nodes.put(start)
+  visited.add(start)
+  prev_nodes[start] = None
+  
+  found_dest = False
+  
+  while (not found_dest) and (not stack_nodes.empty()):
+    node = stack_nodes.get()
+    for dest in graph[node]:
+      if dest not in visited:
+        prev_nodes[dest] = node
+        if dest is end:
+          found_dest = True
+          break
+        visited.add(dest)
+        stack_nodes.put(dest)
+
+  path = list()
+  
+  if found_dest:
+    path.append(end)
+    prev = prev_nodes[end]
+  
+  while prev is not None:
+    path.append(prev)
+    prev = prev_nodes[prev]
+
+  path.reverse()
+  
+  return path
+    
+    
+print(DFS(graph_simple,'A','J'))
+
+
+
 
         
     
